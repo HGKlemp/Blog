@@ -3,29 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Blog Post</title>
+
+    {% if post %}
+        <title>Update Blog Post</title>
+    {% else %}
+        <title>Add Blog Post</title>
+    {% endif %}
 </head>
 <body>
 
-    <h1>Add a New Blog Post</h1>
+    {% if post %}
+        <h1>Update Blog Post</h1>
+    {% else %}
+        <h1>Add a New Blog Post</h1>
+    {% endif %}
 
-    <form action="{{ url_for('add') }}" method="POST">
+    {% if post %}
+        <form action="{{ url_for('update', post_id=post['id']) }}" method="POST">
+    {% else %}
+        <form action="{{ url_for('add') }}" method="POST">
+    {% endif %}
+
         <p>
             <label for="author">Author:</label><br>
-            <input type="text" id="author" name="author" required>
+            <input
+                type="text"
+                id="author"
+                name="author"
+                value="{{ post['author'] if post else '' }}"
+                required
+            >
         </p>
 
         <p>
             <label for="title">Title:</label><br>
-            <input type="text" id="title" name="title" required>
+            <input
+                type="text"
+                id="title"
+                name="title"
+                value="{{ post['title'] if post else '' }}"
+                required
+            >
         </p>
 
         <p>
             <label for="content">Content:</label><br>
-            <textarea id="content" name="content" rows="10" cols="60" required></textarea>
+            <textarea
+                id="content"
+                name="content"
+                rows="10"
+                cols="60"
+                required
+            >{{ post['content'] if post else '' }}</textarea>
         </p>
 
-        <button type="submit">Add Post</button>
+        {% if post %}
+            <button type="submit">Update Post</button>
+        {% else %}
+            <button type="submit">Add Post</button>
+        {% endif %}
+
     </form>
 
 </body>
