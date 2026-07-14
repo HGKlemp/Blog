@@ -4,30 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Flask Blog</title>
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-    <h1>Welcome to My Flask Blog!</h1>
+<h1>Welcome to My Flask Blog!</h1>
+
+<p>
+    <a href="{{ url_for('add') }}">Add a new blog post</a>
+</p>
+
+{% for post in posts %}
+<div class="post">
+
+    <h2>{{ post["title"] }}</h2>
 
     <p>
-        <a href="{{ url_for('add') }}">Add a new blog post</a>
+        <em>Written by {{ post["author"] }}</em>
     </p>
 
-    {% for post in posts %}
-        <div class="post">
-            <h2>{{ post["title"] }}</h2>
+    <p>{{ post["content"] }}</p>
 
-            <p>
-                <em>Written by {{ post["author"] }}</em>
-            </p>
+    <p>g
+        <a href="{{ url_for('delete', post_id=post['id']) }}">Delete</a>
+    </p>
 
-            <p>{{ post["content"] }}</p>
-        </div>
-    {% else %}
-        <p>No blog posts available.</p>
-    {% endfor %}
+</div>
+{% else %}
+
+<p>No blog posts available.</p>
+
+{% endfor %}
 
 </body>
 </html>

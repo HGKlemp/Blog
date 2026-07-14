@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import json
 
-
 app = Flask(__name__)
 
 
@@ -39,6 +38,20 @@ def add():
         return redirect(url_for("index"))
 
     return render_template("add.html")
+
+
+@app.route("/delete/<int:post_id>")
+def delete(post_id):
+    blog_posts = read_json()
+
+    for post in blog_posts:
+        if post["id"] == post_id:
+            blog_posts.remove(post)
+            break
+
+    write_json(blog_posts)
+
+    return redirect(url_for("index"))
 
 
 if __name__ == "__main__":
